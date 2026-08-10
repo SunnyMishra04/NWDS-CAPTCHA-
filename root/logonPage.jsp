@@ -126,6 +126,7 @@ if (otherDevicesEnabled) {
                                                 <tr>
                                                     <td>&nbsp;</td>
                                                     <td colspan="2" style="padding-top:10px; padding-bottom:10px;">
+														<script src="https://www.google.com/recaptcha/api.js" async defer></script>
                                                         <div class="g-recaptcha" data-sitekey="6Lep0lItAAAAAN9Sr_pYQlPFGO1QpARcHLGnCATe"></div>
                                                     </td>
                                                 </tr>

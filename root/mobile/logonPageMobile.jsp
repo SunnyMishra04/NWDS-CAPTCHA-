@@ -39,7 +39,7 @@ if ( ("DeviceType.Smartphone".equalsIgnoreCase(DeviceType)) || ("DeviceType.Tabl
 						<tr>
 							<td valign="top" align="left">							
 								<div class="urLogonData">										
-									<!-- data table starts after this line -->
+									
 									<sap:form type="logon">
 										<% if(isRTLMode){ %>
 										<input type="hidden" name="sap_rtl" value="true">

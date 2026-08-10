@@ -2,16 +2,16 @@
 // In case of smartphone device.
 if ( ("DeviceType.Smartphone".equalsIgnoreCase(DeviceType)) || ("DeviceType.Tablet".equalsIgnoreCase(DeviceType)) ) {
 	%> 
-	<link rel="stylesheet" type="text/css" href="/logon_ui_resources/css/mobile/mobile.css" >
+	<link rel="stylesheet" type="text/css" href="/logon_ui_custom/css/mobile/mobile.css" >
 	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 	<%
 	if("DeviceType.Smartphone".equalsIgnoreCase(DeviceType)) {
 		%> 
-		<link rel="stylesheet" type="text/css" href="/logon_ui_resources/css/mobile/smartphone.css" >
+		<link rel="stylesheet" type="text/css" href="/logon_ui_custom/css/mobile/smartphone.css" >
 		<%
 	} else if ("DeviceType.Tablet".equalsIgnoreCase(DeviceType)) {
 		%> 
-		<link rel="stylesheet" type="text/css" href="/logon_ui_resources/css/mobile/tablet.css" >
+		<link rel="stylesheet" type="text/css" href="/logon_ui_custom/css/mobile/tablet.css" >
 		<%
 	}
 	

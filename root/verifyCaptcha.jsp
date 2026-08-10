@@ -1,8 +1,14 @@
 <%@ page import="java.io.*, java.net.*" %>
 <%
-    // IMPORTANT: in real systems, do NOT hardcode secrets in JSP.
-    // Put this into a config / secure storage instead.
-    String secret = "6Lep0lItAAAAALQW8vf3sWVrdh-fiyUsAf02UXXc"; // Your Secret Key
+
+
+// Dynamically fetch the secret key from web.xml context parameters
+String secret = application.getInitParameter("recaptchaSecretKey");
+
+if (secret == null || secret.trim().isEmpty()) {
+    out.print("FAILED");
+    return; // Stop execution if the key is missing from the configuration
+}
 
     String responseToken = request.getParameter("g-recaptcha-response");
 

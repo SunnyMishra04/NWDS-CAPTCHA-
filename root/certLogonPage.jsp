@@ -118,6 +118,25 @@ if (otherDevicesEnabled) {
 													<sap:input type="password" styleClass="urEdfTxtEnbl" style="width:170px"/>
 												</td>
 												<td>&nbsp;</td></tr>
+
+												<!-- TEST MARKER -->
+                                                <tr>
+                                                    <td colspan="3">
+                                                        <div style="color:red;font-size:24px;font-weight:bold;text-align:center;">
+                                                            TEST MARKER FROM CERT_LOGON
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                <!-- DESKTOP CAPTCHA START -->
+                                                <tr>
+                                                    <td>&nbsp;</td>
+                                                    <td colspan="2" style="padding-top:10px; padding-bottom:10px;">
+                                                        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+                                                        <div class="g-recaptcha" data-sitekey="6Lep0lItAAAAAN9Sr_pYQlPFGO1QpARcHLGnCATe"></div>
+                                                    </td>
+                                                </tr>
+                                                <!-- DESKTOP CAPTCHA END -->
 												</sap:if>
 												
 												<!-- dysplay checkbox for cert-to-user confirmation, after successful logon -->
@@ -204,8 +223,7 @@ if (otherDevicesEnabled) {
 <% } %> 
 
 <script type="text/javascript">
-
-<!--		
+<!--        
   var docDir = document.dir;    
   if(docDir=="rtl" || docDir=="RTL"){   
      var elTableCnt = document.getElementById("tblInnerCnt");
@@ -214,16 +232,36 @@ if (otherDevicesEnabled) {
      }     
   }
   
-  var isFormSubmitted = false;
-  if( document.forms ) {		
-    document.forms[0].onsubmit=function(){
-      if( isFormSubmitted ) {
-        return false;
-      } else {
-        isFormSubmitted = true;
-        return true;
-      }
-    }
+  // CAPTCHA-aware submit logic for certLogonPage
+  if (document.forms && document.forms.length > 0) {
+      var logonForm = document.forms[0]; 
+      var alreadySubmitted = false;
+
+      logonForm.onsubmit = function() {
+          if (alreadySubmitted) {
+              return false;
+          }
+
+          var token = typeof grecaptcha !== 'undefined' ? grecaptcha.getResponse() : "";
+          if (!token || token.length === 0) {
+              alert("Please complete the CAPTCHA verification.");
+              return false;
+          }
+
+          // Synchronous call to verifyCaptcha.jsp
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", "verifyCaptcha.jsp", false);
+          xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+          xhr.send("g-recaptcha-response=" + encodeURIComponent(token));
+
+          if (xhr.responseText && xhr.responseText.trim() === "VERIFIED") {
+              alreadySubmitted = true;
+              return true; // Allow SAP to process the login
+          } else {
+              alert("CAPTCHA verification failed! Please try again.");
+              return false;
+          }
+      };
   }
 -->
 </script>

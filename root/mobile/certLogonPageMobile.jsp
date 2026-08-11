@@ -2,15 +2,15 @@
 // In case of smartphone device.
 if ( ("DeviceType.Smartphone".equalsIgnoreCase(DeviceType)) || ("DeviceType.Tablet".equalsIgnoreCase(DeviceType)) ) {
 	%> 
-	<link rel="stylesheet" type="text/css" href="/logon_ui_resources/css/mobile/mobile.css" >
+	<link rel="stylesheet" type="text/css" href="/logon_ui_custom/css/mobile/mobile.css" >
 	<%
 	if("DeviceType.Smartphone".equalsIgnoreCase(DeviceType)) {
 		%> 
-		<link rel="stylesheet" type="text/css" href="/logon_ui_resources/css/mobile/smartphone.css" >
+		<link rel="stylesheet" type="text/css" href="/logon_ui_custom/css/mobile/smartphone.css" >
 		<%
 	} else if ("DeviceType.Tablet".equalsIgnoreCase(DeviceType)) {
 		%> 
-		<link rel="stylesheet" type="text/css" href="/logon_ui_resources/css/mobile/tablet.css" >
+		<link rel="stylesheet" type="text/css" href="/logon_ui_custom/css/mobile/tablet.css" >
 		<%
 	}
 	
@@ -90,6 +90,16 @@ if ( ("DeviceType.Smartphone".equalsIgnoreCase(DeviceType)) || ("DeviceType.Tabl
 																<sap:input type="password" styleClass="mobileInput mobileMultiInputLast" />
 															</td>
 														</tr>
+
+														<!-- MOBILE CAPTCHA START -->
+                                                <tr>
+                                                    <td colspan="3" class="mobilePaddedTD mobileTDAlignBottom" style="padding-top:10px; padding-bottom:10px;">
+                                                        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+                                                        <div class="g-recaptcha" data-sitekey="6Lep0lItAAAAAN9Sr_pYQlPFGO1QpARcHLGnCATe"></div>
+                                                    </td>
+                                                </tr>
+                                                <!-- MOBILE CAPTCHA END -->
+
 														</sap:if>
 														
 														<!-- dysplay checkbox for cert-to-user confirmation, after successful logon -->
@@ -164,12 +174,48 @@ if ( ("DeviceType.Smartphone".equalsIgnoreCase(DeviceType)) || ("DeviceType.Tabl
 </div> <!-- Page -->	
 	
 <script type="text/javascript">
-	var _userNameContainer = document.getElementById('userNameLabel');
-	var _passwordContainer = document.getElementById('passwordLabel');
-	var _userNameLabel = _userNameContainer.getElementsByTagName('nobr')[0].childNodes[0].textContent;
-	var _passwordLabel = _passwordContainer.getElementsByTagName('nobr')[0].childNodes[0].textContent;
-	document.getElementById('logonuidfield').placeholder = _userNameLabel;
-	document.getElementById('logonpassfield').placeholder = _passwordLabel;
+    var _userNameContainer = document.getElementById('userNameLabel');
+    var _passwordContainer = document.getElementById('passwordLabel');
+    var _userNameLabel = _userNameContainer.getElementsByTagName('nobr')[0].childNodes[0].textContent;
+    var _passwordLabel = _passwordContainer.getElementsByTagName('nobr')[0].childNodes[0].textContent;
+    document.getElementById('logonuidfield').placeholder = _userNameLabel;
+    document.getElementById('logonpassfield').placeholder = _passwordLabel;
+
+    // CAPTCHA-aware submit logic for mobile certLogon
+    if (document.forms && document.forms.length > 0) {
+        var logonForm = document.forms[0];
+        var alreadySubmitted = false;
+
+        logonForm.addEventListener("submit", function(event) {
+            if (alreadySubmitted) {
+                event.preventDefault();
+                return false;
+            }
+
+            var token = typeof grecaptcha !== 'undefined' ? grecaptcha.getResponse() : "";
+            if (!token || token.length === 0) {
+                event.preventDefault();
+                alert("Please complete the CAPTCHA verification.");
+                return false;
+            }
+
+            // Synchronous call to verifyCaptcha.jsp
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "verifyCaptcha.jsp", false);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.send("g-recaptcha-response=" + encodeURIComponent(token));
+
+            if (xhr.responseText && xhr.responseText.trim() === "VERIFIED") {
+                alreadySubmitted = true;
+                return true; // Allow SAP to process the login
+            } else {
+                event.preventDefault();
+                alert("CAPTCHA verification failed! Please try again.");
+                return false;
+            }
+        }, false);
+    }
 </script>
-	
+    
 <% } %>
+	

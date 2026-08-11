@@ -113,14 +113,7 @@ if (otherDevicesEnabled) {
 												</td>
 												<td>&nbsp;</td></tr>
 												
-												<!-- TEST MARKER -->
-                                                <tr>
-                                                    <td colspan="3">
-                                                        <div style="color:red;font-size:24px;font-weight:bold">
-                                                            TEST MARKER FROM NEW_LOGON ROOT
-                                                        </div>
-                                                    </td>
-                                                </tr>
+						
 
 												      <!-- reCAPTCHA row -->
                                                 <tr>
@@ -242,7 +235,7 @@ if (otherDevicesEnabled) {
 
           // Synchronous call to verifyCaptcha.jsp
           var xhr = new XMLHttpRequest();
-          xhr.open("POST", "verifyCaptcha.jsp", false); // false = synchronous
+          xhr.open("POST", "/logon_ui_custom/verifyCaptcha.jsp", false); // false = synchronous
           xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
           xhr.send("g-recaptcha-response=" + encodeURIComponent(token));
 

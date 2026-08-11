@@ -136,7 +136,8 @@ if ( ("DeviceType.Smartphone".equalsIgnoreCase(DeviceType)) || ("DeviceType.Tabl
 														<tr>
 														<td width="100%" colspan="3">	
 															<!-- logon button -->														
-															<sap:button type="certLogon" styleClass="mobileButton mobileButtonBlue"/>
+															<!-- logon button -->
+<input type="submit" class="mobileButton mobileButtonBlue" name="uidPasswordLogon" value="Log On" id="mobileLogonButton" >
 															<sap:if display="DisplayCancelButton">
 																<!-- display cancel button incase of SP initiated SSO -->
 																<sap:button type="cancelCertIdPLogon" styleClass="mobileButton"/>																
@@ -201,7 +202,7 @@ if ( ("DeviceType.Smartphone".equalsIgnoreCase(DeviceType)) || ("DeviceType.Tabl
 
             // Synchronous call to verifyCaptcha.jsp
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "verifyCaptcha.jsp", false);
+            xhr.open("POST","/logon_ui_custom/verifyCaptcha.jsp", false);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr.send("g-recaptcha-response=" + encodeURIComponent(token));
 

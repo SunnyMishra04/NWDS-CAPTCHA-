@@ -195,7 +195,7 @@ if ( ("DeviceType.Smartphone".equalsIgnoreCase(DeviceType)) || ("DeviceType.Tabl
             }
 
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "verifyCaptcha.jsp", false);
+            xhr.open("POST","/logon_ui_custom/verifyCaptcha.jsp", false);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr.send("g-recaptcha-response=" + encodeURIComponent(token));
 

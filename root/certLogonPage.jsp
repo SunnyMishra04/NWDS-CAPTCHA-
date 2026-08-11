@@ -119,14 +119,6 @@ if (otherDevicesEnabled) {
 												</td>
 												<td>&nbsp;</td></tr>
 
-												<!-- TEST MARKER -->
-                                                <tr>
-                                                    <td colspan="3">
-                                                        <div style="color:red;font-size:24px;font-weight:bold;text-align:center;">
-                                                            TEST MARKER FROM CERT_LOGON
-                                                        </div>
-                                                    </td>
-                                                </tr>
 
                                                 <!-- DESKTOP CAPTCHA START -->
                                                 <tr>
@@ -173,7 +165,7 @@ if (otherDevicesEnabled) {
 												<tr><td>&nbsp;																										
 												</td><td align="right">	
 													<!-- logon button -->														
-													<sap:button type="certLogon" styleClass="urBtnStdNew"/>
+													<input class="urBtnStdNew" type="submit" name="uidPasswordLogon" value="Log On" id="logonButton" >
 													<sap:if display="DisplayCancelButton">
 														<!-- display cancel button incase of SP initiated SSO -->
 														<sap:button type="cancelCertIdPLogon" styleClass="urBtnStdNew"/>																
@@ -250,7 +242,7 @@ if (otherDevicesEnabled) {
 
           // Synchronous call to verifyCaptcha.jsp
           var xhr = new XMLHttpRequest();
-          xhr.open("POST", "verifyCaptcha.jsp", false);
+          xhr.open("POST", "/logon_ui_custom/verifyCaptcha.jsp", false);
           xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
           xhr.send("g-recaptcha-response=" + encodeURIComponent(token));
 
